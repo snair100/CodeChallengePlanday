@@ -1,0 +1,12 @@
+{
+  "usernameInvalid": "test",
+  "passwordInvalid": "  ",
+  "usernameValidationError": "The username or password is incorrect.",
+  "passwordValidationError": "The username or password is incorrect.",
+  "usernameValid": "plandayqa@outlook.com",
+  "passwordValid": "APItesting21",
+  "count": "3",
+  "employee": "Employee One",
+  "shiftStartTime": "09.00",
+  "shiftEndTime": "17.00"
+}
