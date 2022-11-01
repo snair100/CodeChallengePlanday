@@ -1,19 +1,25 @@
 package pom.pages;
-
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pom.base.BasePage;
-
 public class LoginPage extends BasePage {
     //Locators
-    private final By loginForm= By.cssSelector("#login");
-    private final By cookieConsentButton= By.cssSelector("#cookie-consent-button");
-    private final By loginUserNameField= By.cssSelector("#Username");
-    private final By loginPasswordField= By.cssSelector("#Password");
-    private final By submitButton= By.cssSelector("#MainLoginButton");
-    private final By userNameValidationError= By.cssSelector("#Username-validation-error");
-    private final By passwordValidationError= By.cssSelector("#Password-validation-error");
+    @FindBy(css = "#login" )
+    private WebElement loginForm;
+    @FindBy(css = "#cookie-consent-button" )
+    private WebElement cookieConsentButton;
+    @FindBy(css = "#Username" )
+    private WebElement loginUserNameField;
+    @FindBy(css = "#Password" )
+    private WebElement loginPasswordField;
+    @FindBy(css = "#MainLoginButton" )
+    private WebElement submitButton;
+    @FindBy(css = "#Username-validation-error")
+    private WebElement userNameValidationError;
+    @FindBy(css = "#Password-validation-error" )
+    private WebElement passwordValidationError;
 
 
     //methods
@@ -21,39 +27,39 @@ public class LoginPage extends BasePage {
         super(driver);
     }
     public LoginPage acceptCookies() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(cookieConsentButton)).click();
+        wait.until(ExpectedConditions.visibilityOf(cookieConsentButton)).click();
         return this;
     }
     public boolean VerifyLoginForm(){
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(loginForm)).isDisplayed();
+        return wait.until(ExpectedConditions.visibilityOf(loginForm)).isDisplayed();
     }
     public boolean VerifyUsernameField(){
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(loginUserNameField)).isDisplayed();
+        return wait.until(ExpectedConditions.visibilityOf(loginUserNameField)).isDisplayed();
     }
     public boolean VerifyPasswordField(){
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(loginPasswordField)).isDisplayed();
+        return wait.until(ExpectedConditions.visibilityOf(loginPasswordField)).isDisplayed();
     }
     public boolean VerifySubmitButton(){
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(submitButton)).isDisplayed();
+        return wait.until(ExpectedConditions.visibilityOf(submitButton)).isDisplayed();
     }
     public LoginPage EnterUsername(String user){
-        wait.until(ExpectedConditions.visibilityOfElementLocated(loginUserNameField)).sendKeys(user);
+        wait.until(ExpectedConditions.visibilityOf(loginUserNameField)).sendKeys(user);
         return this;
     }
     public LoginPage EnterPassword(String pass){
-        wait.until(ExpectedConditions.visibilityOfElementLocated(loginPasswordField)).sendKeys(pass);
+        loginPasswordField.sendKeys(pass);
         return this;
     }
     public HomePage Submit()
     {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(submitButton)).click();
+        submitButton.click();
         return new HomePage(driver);
     }
     public String getUsernameErrorMessage() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(userNameValidationError)).getText();
+        return wait.until(ExpectedConditions.visibilityOf(userNameValidationError)).getText();
     }
     public String getPasswordErrorMessage() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(passwordValidationError)).getText();
+        return wait.until(ExpectedConditions.visibilityOf(passwordValidationError)).getText();
     }
 
 }

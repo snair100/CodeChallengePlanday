@@ -4,28 +4,30 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.testng.Assert;
 import pom.base.BasePage;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 public class SchedulePage extends BasePage {
     //Locators
-    private final By link=By.xpath("//a[contains(text(),'Manage Employees')]");
-    private final By employeeIcon= By.cssSelector("div[class='styled__StyledTextDiv-sc-y0eatq-3 kNFOfF']");
-    private final By shiftModal=By.cssSelector("div[class='edit-shift-modal__box edit-shift-modal__box--scroll']");
-    private final By shiftStartTime=By.id("shiftStartEnd_start");
-    private final By shiftEndTime=By.id("shiftStartEnd_end");
-    private final By employeeSelectFiled=By.cssSelector("span[class='styled__StyledText-sc-1pogpev-0 bBOxDu sc-bnXvFD irlOeL']");
-    private final By selectEmployee=By.xpath("//span[@class='styled__StyledText-sc-1pogpev-0 bBOxDu sc-bnXvFD irlOeL' and contains(text(),'Employee One')]");
-    private final By createButton=By.cssSelector("li:nth-child(2) > button");
+//    @FindBy(xpath = "//a[contains(text(),'Manage Employees')]" ) private WebElement link;
+    @FindBy(css = "div[class='styled__StyledTextDiv-sc-y0eatq-3 kNFOfF']" )
+    private WebElement employeeIcon;
+    @FindBy(xpath = "div[class='edit-shift-modal__box edit-shift-modal__box--scroll']" )
+    private WebElement shiftModal;
+    @FindBy(id = "shiftStartEnd_start" )
+    private WebElement shiftStartTime;
+    @FindBy(id = "shiftStartEnd_end" )
+    private WebElement shiftEndTime;
+    @FindBy(css = "span[class='styled__StyledText-sc-1pogpev-0 bBOxDu sc-bnXvFD irlOeL']" )
+    private WebElement employeeSelectFiled;
+    @FindBy(xpath = "//span[@class='styled__StyledText-sc-1pogpev-0 bBOxDu sc-bnXvFD irlOeL' and contains(text(),'Employee One')]" )
+    private WebElement selectEmployee;
+    @FindBy(css = "li:nth-child(2) > button" )
+    private WebElement createButton;
 
     //Methods
     public SchedulePage(WebDriver driver) {
@@ -35,25 +37,26 @@ public class SchedulePage extends BasePage {
        return wait.until(ExpectedConditions.urlContains("/schedule"));
     }
     public int getCountOfEmployee() {
-         return driver.findElements(employeeIcon).size();
+        List<WebElement> employee= driver.findElements(By.cssSelector("div[class='styled__StyledTextDiv-sc-y0eatq-3 kNFOfF']")) ;
+        return employee.size();
     }
     public SchedulePage chooseCreateShift(String employee)  {
         DateFormat dateFormat=new SimpleDateFormat("MMMM dd, YYYY");
         Date date=new Date();
         String text= dateFormat.format(date)+employee;
         String locator= "//div[contains(@aria-label,'"+text+"')]/div/div";
-        wait.until(ExpectedConditions.visibilityOfElementLocated(employeeIcon));
+        wait.until(ExpectedConditions.visibilityOf(employeeIcon));
         WebElement e= driver.findElement(By.xpath(locator));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", e);
         e.click();
         return this;
     }
     public SchedulePage enterShiftDetails(String startTime, String endTime){
-        wait.until(ExpectedConditions.visibilityOfElementLocated(shiftModal));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(shiftStartTime)).sendKeys(startTime);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(shiftStartTime)).sendKeys(endTime);
-        driver.findElement(employeeSelectFiled).click();
-        driver.findElement(selectEmployee).click();
+        wait.until(ExpectedConditions.visibilityOf(shiftModal));
+        shiftStartTime.sendKeys(startTime);
+        shiftStartTime.sendKeys(endTime);
+        employeeSelectFiled.click();
+        selectEmployee.click();
         return this;
     }
     public SchedulePage createShift()
